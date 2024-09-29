@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UK ROYAL FAMILY</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif; /* Standard font */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: transparent; /* Fully transparent background */
+            color: black; /* Standard text color */
+            text-align: center;
+        }
+
+        #quiz-container {
+            background-color: transparent; /* Fully transparent container */
+            padding: 20px;
+            max-width: 600px;
+            width: 100%;
+        }
+
+        #logo {
+            width: 150px;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        .question {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        .answer {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            color: white; /* Change the answer color to white */
+        }
+
+        #next-button {
+            background-color: white; /* Change background color to white */
+            color: black; /* Change text color to black for visibility */
+            border: 2px solid #ff9900; /* Optional: Add a border for better visibility */
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease-in-out;
+        }
+
+        #next-button:hover {
+            background-color: #ffcc00; /* Change hover color for better effect */
+        }
+
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+            }
+            to {
+                opacity: 0;
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .fadeOut {
+            animation: fadeOut 0.5s forwards;
+        }
+
+        .fadeIn {
+            animation: fadeIn 0.5s forwards;
+        }
+    </style>
+</head>
+<body>
+
+<div id="quiz-container">
+    <img id="logo" src="https://i.imgur.com/cyZ0Z21.png" alt="George Michael Logo">
+    <h1>UK ROYAL FAMILY</h1>
+    <div id="question-container">
+        <div class="question" id="question">Loading question...</div>
+        <div class="answer" id="answer">Loading answer...</div>
+        <button id="next-button" onclick="nextQuestion()">Next Question</button>
+    </div>
+</div>
+
+<script>
+    // Question and answers data
+    const quizData = [
+        { question: "Who is the longest-reigning monarch in British history?", answer: "Queen Elizabeth II" },
+        { question: "Which royal family member is next in line to the British throne after King Charles III?", answer: "Prince William, Duke of Cambridge" },
+        { question: "What is the full name of King Charles III?", answer: "Charles Philip Arthur George" },
+        { question: "Who was the first British monarch to reside at Buckingham Palace?", answer: "Queen Victoria" },
+        { question: "What year did Queen Elizabeth II ascend to the throne?", answer: "1952" },
+        { question: "Which British monarch was the last emperor or empress of India?", answer: "King George VI" },
+        { question: "Who was the Queen Consort of King George VI?", answer: "Queen Elizabeth (The Queen Mother)" },
+        { question: "What is the name of Queen Elizabeth II's husband?", answer: "Prince Philip, Duke of Edinburgh" },
+        { question: "Which royal palace is the official residence of the British monarch in London?", answer: "Buckingham Palace" },
+        { question: "Who is the current Princess of Wales?", answer: "Catherine, Duchess of Cambridge (commonly known as Kate Middleton)" },
+        { question: "Who were Queen Elizabeth II’s parents?", answer: "King George VI and Queen Elizabeth (The Queen Mother)" },
+        { question: "Which British royal member is known for founding the Duke of Edinburgh Award?", answer: "Prince Philip, Duke of Edinburgh" },
+        { question: "Who is the youngest son of Queen Elizabeth II and Prince Philip?", answer: "Prince Edward, Earl of Wessex" },
+        { question: "Which royal couple's wedding in 1981 was watched by millions around the world?", answer: "Prince Charles and Lady Diana Spencer" },
+        { question: "Who became King of England after the abdication of Edward VIII in 1936?", answer: "King George VI" },
+        { question: "What is the name of the royal family’s Scottish residence?", answer: "Balmoral Castle" },
+        { question: "Who was the first British royal to complete a degree at university?", answer: "Prince Charles" },
+        { question: "Which British royal couple got married in 2018?", answer: "Prince Harry and Meghan Markle" },
+        { question: "Who is the father of Princess Beatrice and Princess Eugenie?", answer: "Prince Andrew, Duke of York" },
+        { question: "Which royal palace is the official residence of the Duke and Duchess of Cambridge?", answer: "Kensington Palace" },
+        { question: "What is the full name of Prince William?", answer: "William Arthur Philip Louis" },
+        { question: "Who is known as 'The People’s Princess'?", answer: "Princess Diana" },
+        { question: "What title did Prince Philip hold before his marriage to Queen Elizabeth II?", answer: "Prince of Greece and Denmark" },
+        { question: "Which monarch was married to Prince Albert?", answer: "Queen Victoria" },
+        { question: "Which royal member is a known equestrian and has competed in the Olympics?", answer: "Zara Tindall (Queen Elizabeth II's granddaughter)" },
+        { question: "Which royal family member currently holds the title of Duke of Edinburgh?", answer: "Prince Edward, Earl of Wessex (after Prince Philip's passing)" },
+        { question: "Which member of the royal family is a patron of the Invictus Games?", answer: "Prince Harry, Duke of Sussex" },
+        { question: "Which British royal is known for being an avid environmentalist and advocate for organic farming?", answer: "King Charles III" },
+        { question: "Who was the first British monarch to celebrate a Platinum Jubilee?", answer: "Queen Elizabeth II" },
+        { question: "Which royal family member was created Duke of Sussex in 2018?", answer: "Prince Harry" },
+        { question: "Who was the first female heir to the British throne to give birth while holding a title of Princess of Wales?", answer: "Princess Diana" },
+        { question: "What are the names of Prince William and Kate Middleton’s three children?", answer: "Prince George, Princess Charlotte, and Prince Louis" },
+        { question: "Who was the Queen of England during the defeat of the Spanish Armada in 1588?", answer: "Queen Elizabeth I" },
+        { question: "What is the name of the royal residence located in Norfolk, England, often used by the royal family for Christmas celebrations?", answer: "Sandringham House" },
+        { question: "Who succeeded Queen Victoria as the British monarch?", answer: "King Edward VII" },
+        { question: "Which British monarch is known for having six wives?", answer: "King Henry VIII" },
+        { question: "What year did Queen Elizabeth II celebrate her Diamond Jubilee?", answer: "2012" },
+        { question: "Who was the British monarch during World War I?", answer: "King George V" },
+        { question: "Which member of the royal family is known as the Countess of Wessex?", answer: "Sophie, wife of Prince Edward" },
+        { question: "What is the name of the daughter of Prince Harry and Meghan Markle?", answer: "Lilibet Diana Mountbatten-Windsor" },
+        { question: "Who was the first King of the House of Windsor?", answer: "King George V (he changed the family name from Saxe-Coburg and Gotha to Windsor in 1917)" },
+        { question: "Which royal couple's interview with Oprah Winfrey in 2021 gained global attention?", answer: "Prince Harry and Meghan Markle" },
+        { question: "Which royal tradition involves the monarch addressing the public on Christmas Day?", answer: "The Queen's (or King's) Christmas Broadcast" },
+        { question: "What year did Prince Philip retire from public duties?", answer: "2017" },
+        { question: "Which British monarch oversaw the foundation of the Church of England?", answer: "King Henry VIII" },
+        { question: "Which castle is known as the largest inhabited castle in the world and a royal residence?", answer: "Windsor Castle" },
+        { question: "What is the name of the Queen’s official residence in Scotland?", answer: "Palace of Holyroodhouse" },
+        { question: "Who was the reigning monarch during the Victorian era?", answer: "Queen Victoria" },
+        { question: "Which royal family member served as a helicopter pilot for the RAF Search and Rescue Force?", answer: "Prince William" },
+        { question: "Who was the first British monarch to broadcast a Christmas message on the radio?", answer: "King George V (in 1932)" }
+    ];
+
+    let currentQuestionIndex = 0;
+
+    function showQuestion() {
+        const questionElement = document.getElementById('question');
+        const answerElement = document.getElementById('answer');
+        const nextButton = document.getElementById('next-button');
+
+        // Reset the fade out animation
+        questionElement.classList.remove('fadeOut');
+        answerElement.classList.remove('fadeOut');
+
+        // Fade out the answer and question
+        questionElement.classList.add('fadeOut');
+        answerElement.classList.add('fadeOut');
+
+        setTimeout(() => {
+            const currentQuestion = quizData[currentQuestionIndex];
+
+            questionElement.textContent = currentQuestion.question;
+            answerElement.textContent = currentQuestion.answer;
+
+            // Reset the fade in animation
+            questionElement.classList.remove('fadeIn');
+            answerElement.classList.remove('fadeIn');
+
+            // Fade in the question and answer
+            questionElement.classList.add('fadeIn');
+            answerElement.classList.add('fadeIn');
+        }, 500);
+    }
+
+    function nextQuestion() {
+        currentQuestionIndex++;
+        if (currentQuestionIndex < quizData.length) {
+            showQuestion();
+        } else {
+            const questionElement = document.getElementById('question');
+            const answerElement = document.getElementById('answer');
+            const nextButton = document.getElementById('next-button');
+
+            questionElement.textContent = "Quiz Complete!";
+            answerElement.textContent = "";
+            nextButton.style.display = "none"; // Hide the button
+        }
+    }
+
+    // Initial call to show the first question
+    showQuestion();
+</script>
+
+</body>
+</html>
